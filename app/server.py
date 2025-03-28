@@ -55,19 +55,21 @@ def imagen():
 @app.route('/menu', methods=['POST'])
 def menu():
     opcion = request.json.get('opcion')
-    if opcion == '1':
-        return jsonify({"mensaje": "Modo automático seleccionado"})
-    elif opcion == '2':
-        return jsonify({"mensaje": "Modo manual seleccionado"})
-    elif opcion == '3':
-        return jsonify({"mensaje": "Modo chat seleccionado"})
-    elif opcion == '4':
+    if opcion == '1':  # Modo automático
+        return jsonify({"mensaje": "Modo automático seleccionado. Envíe los números al servidor."})
+    elif opcion == '2':  # Modo manual
+        return jsonify({"mensaje": "Modo manual seleccionado. Ingrese los números uno por uno."})
+    elif opcion.startswith("CHAT:"):  # Modo chat
+        mensaje = opcion[5:]
+        respuesta = traducir_texto(mensaje)
+        return jsonify({"mensaje": respuesta})
+    elif opcion == '4':  # Borrar árbol binario
         arbol_binario.borrar_arbol()
         return jsonify({"mensaje": "Árbol binario borrado"})
-    elif opcion == '6':
+    elif opcion == '6':  # Ver datos del árbol (orden de inserción)
         elementos = arbol_binario.obtener_elementos_insercion()
         return jsonify({"mensaje": f"Datos del árbol (orden de inserción): {elementos}"})
-    elif opcion == '7':
+    elif opcion == '7':  # Ver datos del árbol ordenados
         elementos = arbol_binario.obtener_elementos()
         return jsonify({"mensaje": f"Datos del árbol ordenados: {elementos}"})
     else:
