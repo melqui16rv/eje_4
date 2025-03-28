@@ -55,9 +55,23 @@ def imagen():
 @app.route('/menu', methods=['POST'])
 def menu():
     opcion = request.json.get('opcion')
-    # Procesar la opción seleccionada (similar al cliente)
-    # ... lógica para manejar las opciones ...
-    return jsonify({"mensaje": "Opción procesada correctamente"})
+    if opcion == '1':
+        return jsonify({"mensaje": "Modo automático seleccionado"})
+    elif opcion == '2':
+        return jsonify({"mensaje": "Modo manual seleccionado"})
+    elif opcion == '3':
+        return jsonify({"mensaje": "Modo chat seleccionado"})
+    elif opcion == '4':
+        arbol_binario.borrar_arbol()
+        return jsonify({"mensaje": "Árbol binario borrado"})
+    elif opcion == '6':
+        elementos = arbol_binario.obtener_elementos_insercion()
+        return jsonify({"mensaje": f"Datos del árbol (orden de inserción): {elementos}"})
+    elif opcion == '7':
+        elementos = arbol_binario.obtener_elementos()
+        return jsonify({"mensaje": f"Datos del árbol ordenados: {elementos}"})
+    else:
+        return jsonify({"mensaje": "Opción no válida"})
 
 @app.route('/obtener_puerto', methods=['GET'])
 def obtener_puerto():

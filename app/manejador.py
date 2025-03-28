@@ -60,7 +60,8 @@ def manejar_cliente(conexion, direccion, arbol, candado):
                             conexion.send(f"Error en la traducción: {str(e)}".encode())
 
                     elif modo == "CHAT_EXIT":
-                        continue
+                        conexion.send("Chat finalizado".encode())
+                        break
 
                     elif modo == "VER_DATOS_INSERCION":
                         with candado:

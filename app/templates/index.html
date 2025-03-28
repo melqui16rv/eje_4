@@ -32,7 +32,24 @@
             });
             const data = await response.json();
             alert(data.mensaje);
+
+            if (opcion === '3') {
+                iniciarChat();
+            }
         });
+
+        async function iniciarChat() {
+            let mensaje;
+            while ((mensaje = prompt("Escribe un mensaje para el servidor ('q' para salir):")) !== 'q') {
+                const response = await fetch('/menu', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ opcion: `CHAT:${mensaje}` })
+                });
+                const data = await response.json();
+                alert(`Respuesta del servidor: ${data.mensaje}`);
+            }
+        }
     </script>
 </body>
 </html>
