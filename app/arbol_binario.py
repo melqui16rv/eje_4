@@ -70,7 +70,7 @@ class ArbolBinario:
         # Devolver la cantidad de elementos en el árbol
         return self.cantidad
 
-    def visualizar_arbol(self, ruta_guardado='vistaArbol/arbol_binario'):
+    def visualizar_arbol(self, ruta_guardado='static/arbol_binario'):
         if not self.raiz:
             return "Árbol vacío"
 

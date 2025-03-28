@@ -50,7 +50,7 @@ def index():
 
 @app.route('/imagen')
 def imagen():
-    return send_file('vistaArbol/arbol_binario.png', mimetype='image/png')
+    return send_file('static/arbol_binario.png', mimetype='image/png')
 
 @app.route('/menu', methods=['POST'])
 def menu():
