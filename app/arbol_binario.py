@@ -70,7 +70,7 @@ class ArbolBinario:
         # Devolver la cantidad de elementos en el árbol
         return self.cantidad
 
-    def visualizar_arbol(self, ruta_guardado='/Users/melquiromero/Documents/GitHub/universidadAreandina/Semestre5/modelos de programación/eje_4/eje_4/vistaArbol/arbol_binario'):
+    def visualizar_arbol(self, ruta_guardado='vistaArbol/arbol_binario'):
         if not self.raiz:
             return "Árbol vacío"
 
@@ -88,7 +88,7 @@ class ArbolBinario:
                     agregar_nodos(dot, nodo.derecha)
 
         agregar_nodos(dot, self.raiz)
-        dot.render(ruta_guardado, format='png', view=True)
+        dot.render(ruta_guardado, format='png', view=False)
         return f"Visualización generada y guardada como '{ruta_guardado}.png'"
 
     def borrar_arbol(self):

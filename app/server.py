@@ -50,8 +50,7 @@ def index():
 
 @app.route('/imagen')
 def imagen():
-    arbol_binario.visualizar_arbol()
-    return send_file('/Users/melquiromero/Documents/GitHub/universidadAreandina/Semestre5/modelos de programación/eje_4/eje_4/vistaArbol/arbol_binario.png', mimetype='image/png')
+    return send_file('vistaArbol/arbol_binario.png', mimetype='image/png')
 
 @app.route('/menu', methods=['POST'])
 def menu():
@@ -91,4 +90,4 @@ def control_servidor():
     return render_template('control_servidor.html', estado="Servidor activo" if servidor_activo else "Servidor apagado", servidor_activo=servidor_activo)
 
 if __name__ == "__main__":
-    iniciar_servidor()
+    app.run(debug=True)
