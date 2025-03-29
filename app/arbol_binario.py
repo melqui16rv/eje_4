@@ -95,4 +95,5 @@ class ArbolBinario:
         self.raiz = None
         self.cantidad = 0
         self.orden_insercion = []  # Limpiar también el orden de inserción
+        self.visualizar_arbol()  # Actualizar la imagen del árbol vacío
         return "Árbol binario borrado completamente"

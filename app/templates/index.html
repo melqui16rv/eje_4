@@ -14,6 +14,7 @@
         <select name="opcion" id="opcion">
             <option value="1">Modo automático</option>
             <option value="2">Modo manual</option>
+            <option value="4">Limpiar árbol</option> <!-- Nueva opción -->
             <option value="6">Ver datos del árbol (orden de inserción)</option>
             <option value="7">Ver datos del árbol ordenados</option>
         </select>
@@ -44,7 +45,7 @@
             const data = await response.json();
             alert(data.mensaje);
 
-            if (opcion === '1' || opcion === '2') {
+            if (['1', '2', '4'].includes(opcion)) {
                 // Actualizar la imagen del árbol
                 document.getElementById('arbolImagen').src = '../static/arbol_binario.png?' + new Date().getTime();
             }
