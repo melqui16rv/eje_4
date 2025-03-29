@@ -14,11 +14,13 @@
         <select name="opcion" id="opcion">
             <option value="1">Modo automático</option>
             <option value="2">Modo manual</option>
-            <option value="4">Limpiar árbol</option> <!-- Nueva opción -->
+            <option value="3">Chatear con el servidor</option>
+            <option value="4">Limpiar árbol</option>
             <option value="6">Ver datos del árbol (orden de inserción)</option>
             <option value="7">Ver datos del árbol ordenados</option>
         </select>
         <input type="number" id="numero" placeholder="Ingrese un número (solo para modo manual)" style="display: none;">
+        <input type="text" id="mensaje" placeholder="Escriba un mensaje (solo para chat)" style="display: none;">
         <button type="submit">Enviar</button>
     </form>
     <h2>Acceso Administrativo</h2>
@@ -32,9 +34,11 @@
             e.preventDefault();
             const opcion = document.getElementById('opcion').value;
             const numero = document.getElementById('numero').value;
+            const mensaje = document.getElementById('mensaje').value;
 
             const payload = { opcion };
             if (opcion === '2') payload.numero = numero;
+            if (opcion === '3') payload.mensaje = mensaje;
 
             const response = await fetch('/menu', {
                 method: 'POST',
@@ -53,10 +57,16 @@
 
         document.getElementById('opcion').addEventListener('change', (e) => {
             const numeroInput = document.getElementById('numero');
+            const mensajeInput = document.getElementById('mensaje');
             if (e.target.value === '2') {
                 numeroInput.style.display = 'block';
+                mensajeInput.style.display = 'none';
+            } else if (e.target.value === '3') {
+                numeroInput.style.display = 'none';
+                mensajeInput.style.display = 'block';
             } else {
                 numeroInput.style.display = 'none';
+                mensajeInput.style.display = 'none';
             }
         });
 

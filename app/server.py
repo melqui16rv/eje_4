@@ -61,16 +61,23 @@ def menu():
         numeros = [random.randint(10, 99) for _ in range(30)]
         for numero in numeros:
             arbol_binario.insertar(numero)
-        arbol_binario.visualizar_arbol()  # Actualizar la imagen del árbol
+        arbol_binario.visualizar_arbol(ruta_guardado='app/static/arbol_binario')  # Actualizar la imagen del árbol
         return jsonify({"mensaje": "Modo automático completado. Árbol actualizado."})
     elif opcion == '2':  # Modo manual
         numero = request.json.get('numero')
         if numero and 10 <= int(numero) <= 99:
             arbol_binario.insertar(int(numero))
-            arbol_binario.visualizar_arbol()  # Actualizar la imagen del árbol
+            arbol_binario.visualizar_arbol(ruta_guardado='app/static/arbol_binario')  # Actualizar la imagen del árbol
             return jsonify({"mensaje": f"Número {numero} insertado. Árbol actualizado."})
         else:
             return jsonify({"mensaje": "Error: Ingrese un número válido de 2 cifras (10-99)."}), 400
+    elif opcion == '3':  # Chat con el servidor
+        mensaje = request.json.get('mensaje')
+        if mensaje:
+            respuesta = traducir_texto(mensaje)
+            return jsonify({"mensaje": respuesta})
+        else:
+            return jsonify({"mensaje": "Error: Mensaje vacío."}), 400
     elif opcion == '4':  # Limpiar el árbol
         arbol_binario.borrar_arbol()
         arbol_binario.visualizar_arbol()  # Actualizar la imagen del árbol vacío
