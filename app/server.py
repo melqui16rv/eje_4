@@ -1,6 +1,7 @@
 from .manejador import manejar_cliente
 from .arbol_binario import ArbolBinario
 from .control import apagar, obtener_estado_apagado
+from .traductor import traducir_texto  # Importar la función traducir_texto
 import socket
 import threading
 import sys
