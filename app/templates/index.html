@@ -8,17 +8,16 @@
 <body>
     <h1>Visualización del Árbol Binario</h1>
     <a href="admin.html">Ir a panel admin</a>
-    <img src="../static/arbol_binario.png" alt="Árbol Binario" style="max-width: 100%; height: auto;">
+    <img id="arbolImagen" src="../static/arbol_binario.png" alt="Árbol Binario" style="max-width: 100%; height: auto;">
     <h2>Menú</h2>
     <form id="menuForm">
         <select name="opcion" id="opcion">
             <option value="1">Modo automático</option>
             <option value="2">Modo manual</option>
-            <option value="3">Chatear con el servidor</option>
-            <option value="4">Borrar árbol binario</option>
             <option value="6">Ver datos del árbol (orden de inserción)</option>
             <option value="7">Ver datos del árbol ordenados</option>
         </select>
+        <input type="number" id="numero" placeholder="Ingrese un número (solo para modo manual)" style="display: none;">
         <button type="submit">Enviar</button>
     </form>
     <h2>Acceso Administrativo</h2>
@@ -31,33 +30,34 @@
         document.getElementById('menuForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const opcion = document.getElementById('opcion').value;
+            const numero = document.getElementById('numero').value;
+
+            const payload = { opcion };
+            if (opcion === '2') payload.numero = numero;
+
             const response = await fetch('/menu', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ opcion })
+                body: JSON.stringify(payload)
             });
+
             const data = await response.json();
             alert(data.mensaje);
 
             if (opcion === '1' || opcion === '2') {
-                alert("Por favor, envíe los números al servidor.");
-            } else if (opcion === '3') {
-                iniciarChat();
+                // Actualizar la imagen del árbol
+                document.getElementById('arbolImagen').src = '../static/arbol_binario.png?' + new Date().getTime();
             }
         });
 
-        async function iniciarChat() {
-            let mensaje;
-            while ((mensaje = prompt("Escribe un mensaje para el servidor ('q' para salir):")) !== 'q') {
-                const response = await fetch('/menu', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ opcion: `CHAT:${mensaje}` })
-                });
-                const data = await response.json();
-                alert(`Respuesta del servidor: ${data.mensaje}`);
+        document.getElementById('opcion').addEventListener('change', (e) => {
+            const numeroInput = document.getElementById('numero');
+            if (e.target.value === '2') {
+                numeroInput.style.display = 'block';
+            } else {
+                numeroInput.style.display = 'none';
             }
-        }
+        });
 
         document.getElementById('adminForm').addEventListener('submit', async (e) => {
             e.preventDefault();

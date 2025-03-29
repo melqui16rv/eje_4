@@ -57,16 +57,18 @@ def imagen():
 def menu():
     opcion = request.json.get('opcion')
     if opcion == '1':  # Modo automático
-        return jsonify({"mensaje": "Modo automático seleccionado. Envíe los números al servidor."})
+        import random
+        numeros = [random.randint(10, 99) for _ in range(30)]
+        for numero in numeros:
+            arbol_binario.insertar(numero)
+        return jsonify({"mensaje": "Modo automático completado. Árbol actualizado."})
     elif opcion == '2':  # Modo manual
-        return jsonify({"mensaje": "Modo manual seleccionado. Ingrese los números uno por uno."})
-    elif opcion.startswith("CHAT:"):  # Modo chat
-        mensaje = opcion[5:]
-        respuesta = traducir_texto(mensaje)
-        return jsonify({"mensaje": respuesta})
-    elif opcion == '4':  # Borrar árbol binario
-        arbol_binario.borrar_arbol()
-        return jsonify({"mensaje": "Árbol binario borrado"})
+        numero = request.json.get('numero')
+        if numero and 10 <= int(numero) <= 99:
+            arbol_binario.insertar(int(numero))
+            return jsonify({"mensaje": f"Número {numero} insertado. Árbol actualizado."})
+        else:
+            return jsonify({"mensaje": "Error: Ingrese un número válido de 2 cifras (10-99)."}), 400
     elif opcion == '6':  # Ver datos del árbol (orden de inserción)
         elementos = arbol_binario.obtener_elementos_insercion()
         return jsonify({"mensaje": f"Datos del árbol (orden de inserción): {elementos}"})
