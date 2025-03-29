@@ -1,8 +1,9 @@
-# Proyecto Árbol Binario
+# Proyecto Chat Simple
 
-Este proyecto implementa un servidor que visualiza un árbol binario y lo actualiza dinámicamente.
+Este proyecto implementa un servidor web que permite interactuar en modo chat:
+- El usuario ingresa un mensaje y el servidor responde utilizando la función de traducción.
 
-## Despliegue en Railway
+## Despliegue
 
 1. Asegúrate de tener los archivos `requirements.txt`, `Procfile` y `main.py`.
 2. Sube el proyecto a un repositorio de GitHub.
@@ -11,5 +12,5 @@ Este proyecto implementa un servidor que visualiza un árbol binario y lo actual
 ## Dependencias
 
 - Flask
-- Graphviz
 - Gunicorn
+- Requests

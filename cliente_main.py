@@ -1,14 +1,19 @@
-import requests
-from app.cliente import iniciar_cliente
+import socket
+
+def iniciar_cliente_chat():
+    HOST = '127.0.0.1'
+    PORT = 65432
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((HOST, PORT))
+        print("Conectado al chat por socket. Escribe 'exit' para salir.")
+        while True:
+            mensaje = input("Tú: ").strip()
+            if mensaje.lower() == 'exit':
+                s.send("EXIT".encode())
+                break
+            s.send(f"CHAT:{mensaje}".encode())
+            respuesta = s.recv(1024).decode()
+            print("Servidor:", respuesta)
 
 if __name__ == "__main__":
-    try:
-        response = requests.get("http://127.0.0.1:5000/obtener_puerto")
-        if response.status_code == 200:
-            puerto = response.json().get("puerto")
-            print(f"Conectando al servidor en el puerto dinámico: {puerto}")
-            iniciar_cliente(puerto)
-        else:
-            print("Error al obtener un puerto dinámico del servidor")
-    except Exception as e:
-        print(f"Error al conectar con el servidor: {e}")
+    iniciar_cliente_chat()
