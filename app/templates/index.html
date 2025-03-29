@@ -9,6 +9,8 @@
     <h1>Visualización del Árbol Binario</h1>
     <a href="admin.html">Ir a panel admin</a>
     <img id="arbolImagen" src="../static/arbol_binario.png" alt="Árbol Binario" style="max-width: 100%; height: auto;">
+    <button id="updateTree">Actualizar Árbol</button>
+    <img id="treeImage" src="/static/arbol_binario.png" alt="Árbol Binario">
     <h2>Menú</h2>
     <form id="menuForm">
         <select name="opcion" id="opcion">
@@ -34,25 +36,23 @@
             e.preventDefault();
             const opcion = document.getElementById('opcion').value;
             const numero = document.getElementById('numero').value;
-            const mensaje = document.getElementById('mensaje').value;
 
-            const payload = { opcion };
-            if (opcion === '2') payload.numero = numero;
-            if (opcion === '3') payload.mensaje = mensaje;
-
-            const response = await fetch('/menu', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            const data = await response.json();
-            alert(data.mensaje);
-
-            if (['1', '2', '4'].includes(opcion)) {
-                // Actualizar la imagen del árbol
-                document.getElementById('arbolImagen').src = '../static/arbol_binario.png?' + new Date().getTime();
+            if (opcion === '2') {
+                const response = await fetch('/insertar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ valor: parseInt(numero) })
+                });
+                const data = await response.json();
+                alert(data.mensaje);
+            } else if (opcion === '4') {
+                const response = await fetch('/borrar', { method: 'POST' });
+                const data = await response.json();
+                alert(data.mensaje);
             }
+
+            // Actualizar la imagen del árbol
+            document.getElementById('arbolImagen').src = '../static/arbol_binario.png?' + new Date().getTime();
         });
 
         document.getElementById('opcion').addEventListener('change', (e) => {
@@ -83,6 +83,11 @@
             } else {
                 alert("Contraseña incorrecta");
             }
+        });
+
+        document.getElementById('updateTree').addEventListener('click', async () => {
+            await fetch('/generate-tree-image');
+            document.getElementById('treeImage').src = `/static/arbol_binario.png?${new Date().getTime()}`;
         });
     </script>
 </body>

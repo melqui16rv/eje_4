@@ -1,4 +1,5 @@
-from graphviz import Digraph
+from graphviz import Digraph, backend
+import os
 
 
 class Nodo:
@@ -28,29 +29,27 @@ class ArbolBinario:
         if not self.raiz:
             # Si el árbol está vacío, el nuevo nodo se convierte en la raíz
             self.raiz = nuevo_nodo
-            # Actualizar la visualización del árbol
-            self.visualizar_arbol()
+            self.visualizar_arbol()  # Generar la imagen del árbol
             return
             
         actual = self.raiz
         while True:
             if valor < actual.valor:
                 if actual.izquierda is None:
-                    # Insertar el nuevo nodo en la subárbol izquierdo
+                    # Insertar el nuevo nodo en el subárbol izquierdo
                     actual.izquierda = nuevo_nodo
                     nuevo_nodo.padre = actual
                     break
                 actual = actual.izquierda
             else:
                 if actual.derecha is None:
-                    # Insertar el nuevo nodo en la subárbol derecho
+                    # Insertar el nuevo nodo en el subárbol derecho
                     actual.derecha = nuevo_nodo
                     nuevo_nodo.padre = actual
                     break
                 actual = actual.derecha
 
-        # Actualizar la visualización del árbol
-        self.visualizar_arbol()
+        self.visualizar_arbol()  # Generar la imagen del árbol
 
     def obtener_elementos(self):
         # Obtener los elementos del árbol en orden ascendente
@@ -88,12 +87,17 @@ class ArbolBinario:
                     agregar_nodos(dot, nodo.derecha)
 
         agregar_nodos(dot, self.raiz)
-        dot.render(ruta_guardado, format='png', view=False)
-        return f"Visualización generada y guardada como '{ruta_guardado}.png'"
+        try:
+            # Asegúrate de que la carpeta 'static' exista
+            os.makedirs(os.path.dirname(ruta_guardado), exist_ok=True)
+            dot.render(ruta_guardado, format='png', view=False)
+            return f"Visualización generada y guardada como '{ruta_guardado}.png'"
+        except backend.ExecutableNotFound:
+            return "Error: Graphviz no está instalado o no está en el PATH del sistema."
 
     def borrar_arbol(self):
         self.raiz = None
         self.cantidad = 0
         self.orden_insercion = []  # Limpiar también el orden de inserción
-        self.visualizar_arbol()  # Actualizar la imagen del árbol vacío
+        self.visualizar_arbol()  # Generar la imagen del árbol vacío
         return "Árbol binario borrado completamente"
